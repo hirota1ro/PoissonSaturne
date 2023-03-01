@@ -8,6 +8,9 @@ struct PoissonSaturne: ParsableCommand {
       subcommands: [],
       helpNames: [.long, .customShort("?")])
 
+    @Argument
+    var inputFile: String
+
     @Option(name: .shortAndLong)
     var width: Int = 256
 
@@ -33,14 +36,12 @@ struct PoissonSaturne: ParsableCommand {
     var outputFile: String?
 
     @Flag(name: .long)
-    var solarSail: Bool = false
-
-    @Flag(name: .long)
     var verbose: Bool = false
 
     mutating func run() throws {
+        let env = try Envelope.read(from: inputFile)
         let size = CGSize(width: width, height: height ?? width)
-        let image = imageCreate(size: size)
+        let image = imageCreate(env: env, size: size)
         saveAsPNG(fileURL: outputURL, image: image)
     }
 
@@ -48,15 +49,13 @@ struct PoissonSaturne: ParsableCommand {
         return Point3D(x: Double(xAxisRotation), y: Double(yAxisRotation), z: Double(zAxisRotation))
     }
 
-    func imageCreate(size: CGSize) -> NSImage {
+    func imageCreate(env: Envelope, size: CGSize) -> NSImage {
         let workSize = size * CGFloat(highDensity)
         let image = NSImage(size: workSize)
         image.lockFocus()
         NSColor.black.setFill()
         CGRect(origin: .zero, size: workSize).fill()
-        let renderer = solarSail
-          ? Renderer.solar_sail(size: workSize, rotation: rotation)
-          : Renderer.poisson_saturne(size: workSize, rotation: rotation)
+        let renderer = env.renderer(imageSize: workSize, rotation: rotation)
         renderer.render(n: iterations * highDensity * highDensity)
         image.unlockFocus()
         return highDensity != 1 ? image.resized(to: size) : image
@@ -66,7 +65,7 @@ struct PoissonSaturne: ParsableCommand {
         if let outputFile = outputFile {
             return URL(fileURLWithPath: outputFile)
         }
-        let file = solarSail ? "SolarSail.png" : "PoissonSaturne.png"
+        let file = "SolarSail.png"
         return URL(fileURLWithPath: file)
     }
 
@@ -83,4 +82,3 @@ struct PoissonSaturne: ParsableCommand {
         }
     }
 }
-

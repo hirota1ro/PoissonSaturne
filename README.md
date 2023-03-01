@@ -7,15 +7,15 @@ run
 
 create image 'Poisson Saturne' Attractor
 ```
-swift run PoissonSaturne
+PoissonSaturne json/PoissonSaturne.json -y 180 -z 75 -o ~/Downloads/PoissonSaturne.png
 ```
-save `PoissonSaturne.png` into current directory.
+save `PoissonSaturne.png` into `Downloads` directory.
 
 create image 'Solar Sail' Attractor
 ```
-swift run PoissonSaturne --solar-sail
+PoissonSaturne json/SolarSail.json -y 90 -o ~/Downloads/SolarSail.png
 ```
-save `SolarSail.png` into current directory.
+save `SolarSail.png` into `Downloads` directory.
 
 option
 
@@ -32,17 +32,6 @@ high density
 count of iteration
 ```
  -N 100000
-```
-
-Examples rotaion
-
-Poisson Saturne
-```
- -x 0 -y 180 -z 75
-```
-Solar Sail
-```
- --solar-sail -x 0 -y 90 -z 0
 ```
 
 Example Shell Script

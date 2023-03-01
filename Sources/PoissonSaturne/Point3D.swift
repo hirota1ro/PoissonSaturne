@@ -28,3 +28,8 @@ extension Point3D {
     func dot(_ p: Point3D) -> Double { return x * p.x + y * p.y + z * p.z }
     func distance(to p: Point3D) -> Double { (p - self).norm }
 }
+
+extension Double {
+    var radians: Double { return self / 180 * .pi }
+    var degrees: Double { return self * 180 / .pi }
+}
