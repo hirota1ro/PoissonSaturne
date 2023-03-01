@@ -9,6 +9,23 @@ extension Factory {
     var name: String { return String(describing: type(of: self)) }
 }
 
+struct Polynomial21: Factory {
+
+    func create(from dict: [String: Any]) throws -> Formula {
+        guard let X: [Double] = dict["X"] as? [Double] else { throw EnvelopeError.noKey("X") }
+        guard let Y: [Double] = dict["Y"] as? [Double] else { throw EnvelopeError.noKey("Y") }
+        guard let Z: [Double] = dict["Z"] as? [Double] else { throw EnvelopeError.noKey("Z") }
+
+        return { (p: Point3D) -> Point3D in
+            let m: [Double] = [ 1.0, p.x, p.y, p.z, abs(p.x), abs(p.y), abs(p.z) ]
+            let x = zip(m, X).map({ $0.0 * $0.1 }).reduce(0, +)
+            let y = zip(m, Y).map({ $0.0 * $0.1 }).reduce(0, +)
+            let z = zip(m, Z).map({ $0.0 * $0.1 }).reduce(0, +)
+            return Point3D(x: x, y: y, z: z)
+        }
+    }
+}
+
 struct Polynomial24: Factory {
 
     func create(from dict: [String: Any]) throws -> Formula {
@@ -60,6 +77,7 @@ class Factories {
     static let singleton = Factories(list: Factories.list)
 
     static let list: [Factory] = [
+      Polynomial21(),
       Polynomial24(),
       Polynomial30(),
     ]
