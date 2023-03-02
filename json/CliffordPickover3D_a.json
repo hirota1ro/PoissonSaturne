@@ -1,0 +1,15 @@
+{
+    "title": "CliffordPickover3D_a",
+    "formula": "CliffordPickover3D",
+    "a": 2,
+    "b": 0.5,
+    "c": 1,
+    "d": 1,
+    "e": 2,
+
+    "start": {"x": 0, "y": 0, "z": 0 },
+    "center": {"x": 0.005382657, "y": -0.009897828, "z": 0 },
+    "size": {"x": 5.98864, "y": 5.9755735, "z": 4.0 },
+    "velocity": {"min": 0.036375932, "max": 6.8180375 },
+    "acceleration": {"min": 0.07079874, "max": 11.439203 }
+}
