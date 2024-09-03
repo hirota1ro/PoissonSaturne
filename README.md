@@ -38,6 +38,6 @@ Example Shell Script
 ```
 for i in `seq 10 99`
 do
-    ./PoissonSaturne -x 0 -y $i -z 75 -o ~/Downloads/y0$i.png
+    PoissonSaturne PoissonSaturne.json -x 0 -y $i -z 75 -o ~/Downloads/y0$i.png
 done
 ```
