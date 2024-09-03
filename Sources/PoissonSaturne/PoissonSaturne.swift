@@ -51,13 +51,14 @@ struct PoissonSaturne: ParsableCommand {
 
     func imageCreate(env: Envelope, size: CGSize) -> NSImage {
         let workSize = size * CGFloat(highDensity)
-        let image = NSImage(size: workSize)
-        image.lockFocus()
-        NSColor.black.setFill()
-        CGRect(origin: .zero, size: workSize).fill()
-        let renderer = env.renderer(imageSize: workSize, rotation: rotation)
-        renderer.render(n: iterations * highDensity * highDensity)
-        image.unlockFocus()
+        let bitmap = Bitmap(size: workSize) 
+        let cgImg = bitmap.image { _ in
+            NSColor.black.setFill()
+            CGRect(origin: .zero, size: workSize).fill()
+            let renderer = env.renderer(imageSize: workSize, rotation: rotation)
+            renderer.render(n: iterations * highDensity * highDensity)
+        }
+        let image = NSImage(cgImage: cgImg, size: workSize)
         return highDensity != 1 ? image.resized(to: size) : image
     }
 
